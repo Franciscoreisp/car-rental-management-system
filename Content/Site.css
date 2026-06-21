@@ -1,0 +1,378 @@
+﻿/* =============================================
+   BOTÕES DE NAVEGAÇÃO — TABELAS
+   ============================================= */
+
+html body a.btn-delete-inline,
+html body a.btn-delete-inline:link,
+html body a.btn-delete-inline:visited {
+    background-color: #dc3545 !important;
+    color: #fff !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+
+    html body a.btn-delete-inline:hover {
+        background-color: #b02a37 !important;
+        color: #fff !important;
+        text-decoration: none !important;
+    }
+
+html body a.btn-edit,
+html body a.btn-edit:link,
+html body a.btn-edit:visited {
+    background-color: #f0c040 !important;
+    color: #1a1a2e !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+
+    html body a.btn-edit:hover {
+        background-color: #d4a800 !important;
+        color: #1a1a2e !important;
+        text-decoration: none !important;
+    }
+
+html body a.btn-details,
+html body a.btn-details:link,
+html body a.btn-details:visited {
+    background-color: #17a2b8 !important;
+    color: #fff !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+}
+
+    html body a.btn-details:hover {
+        background-color: #138496 !important;
+        color: #fff !important;
+        text-decoration: none !important;
+    }
+
+html body a.btn-criar,
+html body a.btn-criar:link,
+html body a.btn-criar:visited {
+    display: inline-block !important;
+    background-color: #1a1a2e !important;
+    color: #fff !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    text-decoration: none !important;
+    margin-bottom: 12px !important;
+    transition: all 0.2s ease;
+}
+
+    html body a.btn-criar:hover {
+        background-color: #f0c040 !important;
+        color: #1a1a2e !important;
+        text-decoration: none !important;
+    }
+
+html body a.btn-link-custom,
+html body a.btn-link-custom:link,
+html body a.btn-link-custom:visited {
+    display: inline-block !important;
+    margin-top: 8px !important;
+    color: #1a1a2e !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    text-decoration: none !important;
+    border-bottom: 2px solid #f0c040 !important;
+    padding-bottom: 2px !important;
+    transition: all 0.2s ease;
+}
+
+    html body a.btn-link-custom:hover {
+        color: #f0c040 !important;
+        border-bottom-color: #1a1a2e !important;
+        text-decoration: none !important;
+    }
+
+html body a.btn-excel,
+html body a.btn-excel:link,
+html body a.btn-excel:visited {
+    display: inline-block !important;
+    background-color: #1d6f42 !important;
+    color: #fff !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    text-decoration: none !important;
+    margin-left: 8px !important;
+    margin-bottom: 12px !important;
+    transition: all 0.2s ease;
+}
+
+    html body a.btn-excel:hover {
+        background-color: #155232 !important;
+        color: #fff !important;
+        text-decoration: none !important;
+    }
+
+/* =============================================
+   FORMULÁRIOS GLOBAIS
+   ============================================= */
+
+.form-group {
+    margin-bottom: 20px !important;
+}
+
+    .form-group label,
+    .form-group .control-label {
+        display: block !important;
+        float: none !important;
+        width: auto !important;
+        font-weight: 600 !important;
+        font-size: 0.85rem !important;
+        color: #555 !important;
+        margin-bottom: 6px !important;
+        text-align: left !important;
+    }
+
+    .form-group .col-md-10,
+    .form-group .col-md-offset-2 {
+        float: none !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .form-group .form-control,
+    .form-group .form-select,
+    .form-group input[type="text"],
+    .form-group input[type="date"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group input[type="file"],
+    .form-group select,
+    .form-group textarea {
+        width: 100% !important;
+        padding: 10px 14px !important;
+        border: 1.5px solid #ddd !important;
+        border-radius: 8px !important;
+        font-size: 0.95rem !important;
+        transition: border-color 0.2s, box-shadow 0.2s !important;
+        background: #fff !important;
+    }
+
+        .form-group .form-control:focus,
+        .form-group .form-select:focus,
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #f0c040 !important;
+            box-shadow: 0 0 0 3px rgba(240, 192, 64, 0.2) !important;
+            outline: none !important;
+        }
+
+/* =============================================
+   BOTÕES DE SUBMIT GLOBAIS
+   ============================================= */
+
+input[type="submit"],
+button[type="submit"] {
+    background-color: #1a1a2e !important;
+    color: #fff !important;
+    padding: 10px 28px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    cursor: pointer !important;
+    margin-top: 8px !important;
+    transition: background 0.2s, color 0.2s !important;
+}
+
+    input[type="submit"]:hover,
+    button[type="submit"]:hover {
+        background-color: #f0c040 !important;
+        color: #1a1a2e !important;
+    }
+
+/* =============================================
+   LOGIN FORM
+   ============================================= */
+
+.login-form table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin-top: 8px;
+}
+
+    .login-form table td:first-child {
+        font-weight: 600;
+        color: #444;
+        padding-right: 20px;
+        white-space: nowrap;
+        vertical-align: middle;
+        width: 110px;
+    }
+
+    .login-form table td:last-child {
+        vertical-align: middle;
+    }
+
+    .login-form table td .form-control {
+        width: 260px !important;
+        padding: 8px 12px !important;
+        border: 1px solid #ddd !important;
+        border-radius: 8px !important;
+        font-size: 0.95rem !important;
+    }
+
+        .login-form table td .form-control:focus {
+            border-color: #f0c040 !important;
+            box-shadow: 0 0 0 3px rgba(240, 192, 64, 0.2) !important;
+            outline: none !important;
+        }
+
+/* =============================================
+   GERAL
+   ============================================= */
+
+.body-content h2 {
+    margin-top: 24px !important;
+}
+
+/* =============================================
+   HOME PAGE
+   ============================================= */
+
+.hero {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 80px 32px 72px 32px;
+    margin: 24px -15px 56px -15px;
+    text-align: center;
+    border-top: 4px solid #f0c040;
+    border-bottom: 4px solid #f0c040;
+}
+
+    .hero h1 {
+        font-size: 2.6rem;
+        font-weight: 800;
+        margin-bottom: 14px;
+        letter-spacing: -0.5px;
+    }
+
+        .hero h1 span {
+            color: #f0c040;
+        }
+
+    .hero .hero-sub {
+        font-size: 1.05rem;
+        color: #aaa;
+        margin: 0 auto;
+        max-width: 480px;
+    }
+
+.home-divider {
+    width: 48px;
+    height: 4px;
+    background: #f0c040;
+    border-radius: 2px;
+    margin: 0 auto 28px auto;
+}
+
+.home-about {
+    max-width: 900px;
+    margin: 56px auto 56px auto;
+    text-align: center;
+}
+
+    .home-about h2 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .home-about p {
+        font-size: 0.97rem;
+        color: #666;
+        line-height: 1.85;
+        margin-bottom: 14px;
+    }
+
+.home-badge {
+    display: inline-block;
+    background: #f0c040;
+    color: #1a1a2e;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.home-about-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-top: 16px;
+    text-align: left;
+}
+
+.home-about-text {
+    flex: 1;
+}
+
+.home-about-img {
+    flex: 1;
+    align-self: stretch;
+}
+
+    .home-about-img img {
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+        object-fit: cover;
+        object-position: center;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+@media (max-width: 768px) {
+    .home-about-content {
+        flex-direction: column;
+    }
+}
+
+/* =============================================
+   NAVBAR — TIPOGRAFIA
+   ============================================= */
+
+.navbar .navbar-brand {
+    font-size: 1.1rem !important;
+    font-weight: 800 !important;
+    color: #f0c040 !important;
+    letter-spacing: 0.05em !important;
+}
+
+.navbar .nav-link {
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.02em !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    transition: color 0.2s !important;
+}
+
+    .navbar .nav-link:hover {
+        color: #f0c040 !important;
+    }
