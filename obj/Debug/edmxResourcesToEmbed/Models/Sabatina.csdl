@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="aluguere">
+    <Key>
+      <PropertyRef Name="idal" />
+    </Key>
+    <Property Name="idal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idcli" Type="Int32" />
+    <Property Name="idcar" Type="Int32" />
+    <Property Name="inicio" Type="DateTime" Precision="3" />
+    <Property Name="fim" Type="DateTime" Precision="3" />
+    <Property Name="tempo" Type="Decimal" Precision="10" Scale="2" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="custo" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="carro" Relationship="Self.FK__alugueres__idcar__66603565" FromRole="alugueres" ToRole="carros" />
+    <NavigationProperty Name="cliente" Relationship="Self.fkaluguercliente" FromRole="alugueres" ToRole="clientes" />
+  </EntityType>
+  <EntityType Name="carro">
+    <Key>
+      <PropertyRef Name="idcar" />
+    </Key>
+    <Property Name="idcar" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="phora" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="photopath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="alugueres" Relationship="Self.FK__alugueres__idcar__66603565" FromRole="carros" ToRole="alugueres" />
+  </EntityType>
+  <EntityType Name="cliente">
+    <Key>
+      <PropertyRef Name="idcli" />
+    </Key>
+    <Property Name="idcli" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="datanasc" Type="DateTime" Precision="3" />
+    <Property Name="idade" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="categoria" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="tutor" Type="Int32" />
+    <Property Name="photopath" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="alugueres" Relationship="Self.fkaluguercliente" FromRole="clientes" ToRole="alugueres" />
+    <NavigationProperty Name="clientes1" Relationship="Self.FK__clientes__tutor__5EBF139D" FromRole="clientes" ToRole="clientes1" />
+    <NavigationProperty Name="cliente1" Relationship="Self.FK__clientes__tutor__5EBF139D" FromRole="clientes1" ToRole="clientes" />
+  </EntityType>
+  <EntityType Name="newsletter">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="datasubscricao" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="utilizador">
+    <Key>
+      <PropertyRef Name="idutil" />
+    </Key>
+    <Property Name="idutil" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK__alugueres__idcar__66603565">
+    <End Role="carros" Type="Self.carro" Multiplicity="0..1" />
+    <End Role="alugueres" Type="Self.aluguere" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="carros">
+        <PropertyRef Name="idcar" />
+      </Principal>
+      <Dependent Role="alugueres">
+        <PropertyRef Name="idcar" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkaluguercliente">
+    <End Role="clientes" Type="Self.cliente" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="alugueres" Type="Self.aluguere" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="clientes">
+        <PropertyRef Name="idcli" />
+      </Principal>
+      <Dependent Role="alugueres">
+        <PropertyRef Name="idcli" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__clientes__tutor__5EBF139D">
+    <End Role="clientes" Type="Self.cliente" Multiplicity="0..1" />
+    <End Role="clientes1" Type="Self.cliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="clientes">
+        <PropertyRef Name="idcli" />
+      </Principal>
+      <Dependent Role="clientes1">
+        <PropertyRef Name="tutor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Sabadao" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="alugueres" EntityType="Self.aluguere" />
+    <EntitySet Name="carros" EntityType="Self.carro" />
+    <EntitySet Name="clientes" EntityType="Self.cliente" />
+    <EntitySet Name="newsletters" EntityType="Self.newsletter" />
+    <EntitySet Name="utilizadors" EntityType="Self.utilizador" />
+    <AssociationSet Name="FK__alugueres__idcar__66603565" Association="Self.FK__alugueres__idcar__66603565">
+      <End Role="carros" EntitySet="carros" />
+      <End Role="alugueres" EntitySet="alugueres" />
+    </AssociationSet>
+    <AssociationSet Name="fkaluguercliente" Association="Self.fkaluguercliente">
+      <End Role="clientes" EntitySet="clientes" />
+      <End Role="alugueres" EntitySet="alugueres" />
+    </AssociationSet>
+    <AssociationSet Name="FK__clientes__tutor__5EBF139D" Association="Self.FK__clientes__tutor__5EBF139D">
+      <End Role="clientes" EntitySet="clientes" />
+      <End Role="clientes1" EntitySet="clientes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

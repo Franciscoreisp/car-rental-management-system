@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="alugueres">
+    <Key>
+      <PropertyRef Name="idal" />
+    </Key>
+    <Property Name="idal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idcli" Type="int" />
+    <Property Name="idcar" Type="int" />
+    <Property Name="inicio" Type="datetime" />
+    <Property Name="fim" Type="datetime" />
+    <Property Name="tempo" Type="decimal" Precision="10" Scale="2" StoreGeneratedPattern="Computed" />
+    <Property Name="custo" Type="decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="carros">
+    <Key>
+      <PropertyRef Name="idcar" />
+    </Key>
+    <Property Name="idcar" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="modelo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="phora" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="photopath" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="clientes">
+    <Key>
+      <PropertyRef Name="idcli" />
+    </Key>
+    <Property Name="idcli" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nome" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="datanasc" Type="datetime" />
+    <Property Name="idade" Type="int" StoreGeneratedPattern="Computed" />
+    <Property Name="categoria" Type="nvarchar" MaxLength="50" />
+    <Property Name="tutor" Type="int" />
+    <Property Name="photopath" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="newsletter">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="datasubscricao" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="utilizador">
+    <Key>
+      <PropertyRef Name="idutil" />
+    </Key>
+    <Property Name="idutil" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="nome" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK__alugueres__idcar__66603565">
+    <End Role="carros" Type="Self.carros" Multiplicity="0..1" />
+    <End Role="alugueres" Type="Self.alugueres" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="carros">
+        <PropertyRef Name="idcar" />
+      </Principal>
+      <Dependent Role="alugueres">
+        <PropertyRef Name="idcar" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__clientes__tutor__5EBF139D">
+    <End Role="clientes" Type="Self.clientes" Multiplicity="0..1" />
+    <End Role="clientes1" Type="Self.clientes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="clientes">
+        <PropertyRef Name="idcli" />
+      </Principal>
+      <Dependent Role="clientes1">
+        <PropertyRef Name="tutor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkaluguercliente">
+    <End Role="clientes" Type="Self.clientes" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="alugueres" Type="Self.alugueres" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="clientes">
+        <PropertyRef Name="idcli" />
+      </Principal>
+      <Dependent Role="alugueres">
+        <PropertyRef Name="idcli" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="alugueres" EntityType="Self.alugueres" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="carros" EntityType="Self.carros" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="clientes" EntityType="Self.clientes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="newsletter" EntityType="Self.newsletter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="utilizador" EntityType="Self.utilizador" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__alugueres__idcar__66603565" Association="Self.FK__alugueres__idcar__66603565">
+      <End Role="carros" EntitySet="carros" />
+      <End Role="alugueres" EntitySet="alugueres" />
+    </AssociationSet>
+    <AssociationSet Name="FK__clientes__tutor__5EBF139D" Association="Self.FK__clientes__tutor__5EBF139D">
+      <End Role="clientes" EntitySet="clientes" />
+      <End Role="clientes1" EntitySet="clientes" />
+    </AssociationSet>
+    <AssociationSet Name="fkaluguercliente" Association="Self.fkaluguercliente">
+      <End Role="clientes" EntitySet="clientes" />
+      <End Role="alugueres" EntitySet="alugueres" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

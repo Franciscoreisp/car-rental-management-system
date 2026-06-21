@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Sabadao">
+    <EntitySetMapping Name="alugueres">
+      <EntityTypeMapping TypeName="Model.aluguere">
+        <MappingFragment StoreEntitySet="alugueres">
+          <ScalarProperty Name="idal" ColumnName="idal" />
+          <ScalarProperty Name="idcli" ColumnName="idcli" />
+          <ScalarProperty Name="idcar" ColumnName="idcar" />
+          <ScalarProperty Name="inicio" ColumnName="inicio" />
+          <ScalarProperty Name="fim" ColumnName="fim" />
+          <ScalarProperty Name="tempo" ColumnName="tempo" />
+          <ScalarProperty Name="custo" ColumnName="custo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="carros">
+      <EntityTypeMapping TypeName="Model.carro">
+        <MappingFragment StoreEntitySet="carros">
+          <ScalarProperty Name="idcar" ColumnName="idcar" />
+          <ScalarProperty Name="modelo" ColumnName="modelo" />
+          <ScalarProperty Name="phora" ColumnName="phora" />
+          <ScalarProperty Name="photopath" ColumnName="photopath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="clientes">
+      <EntityTypeMapping TypeName="Model.cliente">
+        <MappingFragment StoreEntitySet="clientes">
+          <ScalarProperty Name="idcli" ColumnName="idcli" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="datanasc" ColumnName="datanasc" />
+          <ScalarProperty Name="idade" ColumnName="idade" />
+          <ScalarProperty Name="categoria" ColumnName="categoria" />
+          <ScalarProperty Name="tutor" ColumnName="tutor" />
+          <ScalarProperty Name="photopath" ColumnName="photopath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="newsletters">
+      <EntityTypeMapping TypeName="Model.newsletter">
+        <MappingFragment StoreEntitySet="newsletter">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="datasubscricao" ColumnName="datasubscricao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="utilizadors">
+      <EntityTypeMapping TypeName="Model.utilizador">
+        <MappingFragment StoreEntitySet="utilizador">
+          <ScalarProperty Name="idutil" ColumnName="idutil" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
