@@ -1,0 +1,61 @@
+﻿@model Trabalho.Models.cliente
+
+@{
+    ViewBag.Title = "DetailsCliente";
+}
+
+<h2>Detalhes do Cliente</h2>
+
+<div style="max-width:520px;">
+    <hr />
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.nome, "Nome", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">@Html.DisplayFor(model => model.nome)</div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.datanasc, "Data de Nascimento", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @(Model.datanasc.HasValue ? Model.datanasc.Value.ToString("dd/MM/yyyy") : "")
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.idade, "Idade", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @(Model.datanasc.HasValue ? (DateTime.Now.Year - Model.datanasc.Value.Year).ToString() + " anos" : "")
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.categoria, "Categoria", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">@Html.DisplayFor(model => model.categoria)</div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("tutor", "Tutor", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @(Model.cliente1 != null ? Model.cliente1.nome : "Sem tutor")
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.photopath, "Foto", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @if (Model.photopath == null)
+            {
+                <img src="@Url.Content("~/Fotos/nophoto.png")" style="height:80px" alt="Sem foto" />
+            }
+            else
+            {
+                <img src="@Url.Content($"~/Fotos/{Model.photopath}")" style="height:80px" alt="Foto" />
+            }
+        </div>
+    </div>
+</div>
+
+<div style="margin-top:16px; display:flex; align-items:center; gap:12px;">
+    <a href="@Url.Action("EditCliente", "Stand", new { id = Model.idcli })" class="btn-edit">Editar</a>
+    <a href="@Url.Action("Clientes", "Stand")" class="btn-link-custom">&#8592; Voltar à lista</a>
+</div>

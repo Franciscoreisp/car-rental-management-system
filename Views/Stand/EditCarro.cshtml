@@ -1,0 +1,81 @@
+﻿@model Trabalho.Models.carro
+
+@{
+    ViewBag.Title = "EditCarro";
+}
+
+<h2>Editar o Carro</h2>
+
+@using (Html.BeginForm("EditCarro", "Stand", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.idcar)
+    <hr />
+
+    <div class="form-horizontal" style="max-width:520px;">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.modelo, "Modelo", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.modelo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.modelo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.phora, "Preço/hora", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-10">
+                <input type="text" name="phora" id="phora"
+                       value="@(Model.phora.HasValue ? Model.phora.Value.ToString().Replace(",", ".") : "")"
+                       class="form-control" />
+                @Html.ValidationMessageFor(model => model.phora, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.photopath, "Foto", htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-10">
+                @if (Model.photopath != null)
+                {
+                    <img id="previewFoto" src="@Url.Content($"~/Fotos/{Model.photopath}")"
+                         style="height:80px; margin-bottom:8px; display:block; border-radius:6px;" />
+                }
+                else
+                {
+                    <img id="previewFoto" src="@Url.Content("~/Fotos/nophotocar.png")"
+                         style="height:80px; margin-bottom:8px; display:block; border-radius:6px;" />
+                }
+                <input type="file" name="fich" id="fich" accept="image/*" class="form-control" />
+                <small style="color:#999;">Deixa vazio para manter a foto atual</small>
+                @Html.ValidationMessageFor(model => model.photopath, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Guardar" style="margin-top: 8px;" />
+            </div>
+        </div>
+    </div>
+}
+
+<div style="margin-top:12px;">
+    <a href="@Url.Action("Carros", "Stand")" class="btn-link-custom">&#8592; Voltar à lista</a>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        document.getElementById('fich').addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewFoto').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}

@@ -1,0 +1,42 @@
+﻿@model Trabalho.Models.carro
+
+@{
+    ViewBag.Title = "DetailsCarro";
+}
+
+<h2>Detalhes do Carro</h2>
+
+<div style="max-width:520px;">
+    <hr />
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.modelo, "Modelo", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">@Html.DisplayFor(model => model.modelo)</div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.phora, "Preço/hora", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">@Html.DisplayFor(model => model.phora)</div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Foto</label>
+        <div class="col-md-10">
+            @if (Model.photopath != null)
+            {
+                <img src="@Url.Content($"~/Fotos/{Model.photopath}")"
+                     style="height:120px; border-radius:10px; object-fit:cover;" alt="" />
+            }
+            else
+            {
+                <img src="@Url.Content("~/Fotos/nophotocar.png")"
+                     style="height:120px; border-radius:10px; object-fit:cover;" alt="" />
+            }
+        </div>
+    </div>
+</div>
+
+<div style="margin-top:16px; display:flex; align-items:center; gap:12px;">
+    <a href="@Url.Action("EditCarro", "Stand", new { id = Model.idcar })" class="btn-edit">Editar</a>
+    <a href="@Url.Action("Carros", "Stand")" class="btn-link-custom">&#8592; Voltar à lista</a>
+</div>

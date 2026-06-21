@@ -1,0 +1,206 @@
+﻿@model IEnumerable<Trabalho.Models.carro>
+
+@{
+    ViewBag.Title = "Carros";
+}
+
+<h2>Lista de Carros</h2>
+<hr />
+
+<p>
+    <a href="@Url.Action("CreateCarro", "Stand")" class="btn-criar">+ Criar Novo</a>
+</p>
+
+<table class="table" id="tblCarros">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Modelo</th>
+            <th>Preço/Hora</th>
+            <th>Foto</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.idcar">
+                <td data-order="@item.idcar">@item.idcar</td>
+                <td class="col-modelo" style="cursor:pointer; color:#337ab7; text-decoration:underline;">
+                    @item.modelo
+                </td>
+                <td data-order="@(item.phora.HasValue ? item.phora.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "0")">
+                    @(item.phora.HasValue ? item.phora.Value.ToString() : "")
+                </td>
+                <td>
+                    @if (item.photopath == null)
+                    {
+                        <img src="@Url.Content("~/Fotos/nophotocar.png")"
+                             style="height:80px; width:110px; max-width:110px; object-fit:cover; border-radius:5px; display:block;" alt="" />
+                    }
+                    else
+                    {
+                        <img src="@Url.Content($"~/Fotos/{item.photopath}")?v=@item.photopath"
+                             style="height:80px; width:110px; max-width:110px; object-fit:cover; border-radius:5px; display:block;" alt="" />
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("EditCarro", "Stand", new { id = item.idcar })" class="btn-edit">Editar</a>
+                    <a href="@Url.Action("DetailsCarro", "Stand", new { id = item.idcar })" class="btn-details">Detalhes</a>
+                    <a href="#" id="@item.idcar" name="btdelcar" class="btn-delete-inline">Apagar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="tvcar"></div>
+
+<div class="modal fade" id="modalCarro" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border:none; border-radius:16px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+
+            <div class="modal-header" style="background:#1a1a2e; border:none; padding:20px 24px;">
+                <h5 class="modal-title" style="color:#f0c040; font-weight:700; font-size:1.05rem; margin:0;">
+                    Detalhes do Carro
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <div style="background:linear-gradient(135deg, #1a1a2e 0%, #2d2d4e 100%); padding:28px 0 22px; text-align:center;">
+                <img id="modalCarroFoto" src="" alt=""
+                     style="width:220px; height:150px; border-radius:12px; object-fit:cover;
+                            border:4px solid #f0c040; box-shadow:0 4px 20px rgba(0,0,0,0.3);" />
+                <div style="margin-top:12px;">
+                    <div id="modalCarroModelo" style="color:#fff; font-size:1.15rem; font-weight:700;"></div>
+                </div>
+            </div>
+
+            <div class="modal-body" style="padding:24px 28px; background:#fff;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+
+                    <div style="background:#f8f9fa; border-radius:10px; padding:14px 16px;">
+                        <div style="font-size:0.68rem; color:#999; text-transform:uppercase; font-weight:700; letter-spacing:0.06em; margin-bottom:5px;">ID</div>
+                        <div id="modalCarroId" style="font-size:1rem; font-weight:700; color:#1a1a2e;"></div>
+                    </div>
+
+                    <div style="background:#f8f9fa; border-radius:10px; padding:14px 16px;">
+                        <div style="font-size:0.68rem; color:#999; text-transform:uppercase; font-weight:700; letter-spacing:0.06em; margin-bottom:5px;">Preço/Hora</div>
+                        <div id="modalCarroPhora" style="font-size:1rem; font-weight:700; color:#1a1a2e;"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer" style="background:#f8f9fa; border:none; padding:16px 24px;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        style="border-radius:8px; font-weight:600; padding:8px 22px;">
+                    Fechar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDeleteCarro" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content" style="border:none; border-radius:16px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.18);">
+            <div style="background:#1a1a2e; padding:18px 20px; text-align:center;">
+                <div style="width:54px; height:54px; margin:0 auto 12px; border-radius:50%; background:#fff3f4; display:flex; align-items:center; justify-content:center; border:2px solid #f5c2c7;">
+                    <span style="color:#dc3545; font-size:1.4rem; font-weight:700;">!</span>
+                </div>
+                <h5 style="margin:0; color:#f0c040; font-weight:700;">Confirmar eliminação</h5>
+            </div>
+
+            <div class="modal-body" style="padding:20px 22px; text-align:center; background:#fff;">
+                <p style="margin:0; color:#555; font-size:0.95rem;">
+                    Tens a certeza que queres apagar este carro?
+                </p>
+            </div>
+
+            <div class="modal-footer" style="border:none; background:#f8f9fa; justify-content:center; gap:10px; padding:16px 20px;">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                        style="border-radius:8px; padding:8px 18px; font-weight:600;">
+                    Cancelar
+                </button>
+                <button type="button" id="btnConfirmDeleteCarro"
+                        style="background:#dc3545; color:#fff; border:none; border-radius:8px; padding:8px 18px; font-weight:700;">
+                    Apagar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        let idCarroParaApagar = null;
+        let linhaCarroParaApagar = null;
+        let modalDeleteCarro = null;
+
+        $(document).ready(function () {
+            $('#tblCarros').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json'
+                },
+                pageLength: 10,
+                lengthMenu: [[1, 5, 10, 20, -1], [1, 5, 10, 20, "Todos"]],
+                order: [[0, 'asc']],
+                columnDefs: [
+                    { orderable: false, targets: [3, 4] },
+                    { type: 'num', targets: [0, 2] },
+                    { type: 'string', targets: [1] },
+                    { searchable: false, targets: [0, 2, 3, 4] }
+                ]
+            });
+
+            modalDeleteCarro = new bootstrap.Modal(document.getElementById('modalDeleteCarro'));
+
+            $('#tblCarros tbody').on('click', 'td.col-modelo', function () {
+                let id = $(this).closest('tr').data('id');
+                fetch('@Url.Action("GetCarroAsync", "Stand")?id=' + id)
+                    .then(r => r.json())
+                    .then(car => {
+                        $('#modalCarroId').text(car.idcar);
+                        $('#modalCarroModelo').text(car.modelo);
+                        $('#modalCarroPhora').text(car.phora + ' €/hora');
+                        $('#modalCarroFoto').attr('src', '@Url.Content("~/Fotos/")' + (car.foto ? car.foto : 'nophotocar.png') + '?v=' + Date.now());
+                        var modal = new bootstrap.Modal(document.getElementById('modalCarro'));
+                        modal.show();
+                    })
+                    .catch(erro => console.log(erro));
+            });
+
+            const btdels = document.querySelectorAll('[name="btdelcar"]');
+            btdels.forEach(e => {
+                e.addEventListener("click", (evt) => {
+                    evt.preventDefault();
+                    idCarroParaApagar = evt.target.id;
+                    linhaCarroParaApagar = evt.target.closest("tr");
+                    modalDeleteCarro.show();
+                });
+            });
+
+            document.getElementById("btnConfirmDeleteCarro").addEventListener("click", function () {
+                if (!idCarroParaApagar) return;
+
+                let dados = new URLSearchParams();
+                dados.append("id", idCarroParaApagar);
+
+                fetch("@Url.Action("DeleteCarroAsync")", {
+                    method: "post",
+                    body: dados
+                }).then(response => response.json()).then(dados => {
+                    document.getElementById("tvcar").innerHTML = dados.msg;
+                    if (dados.msg == "ok" && linhaCarroParaApagar) {
+                        linhaCarroParaApagar.remove();
+                    }
+                    modalDeleteCarro.hide();
+                    idCarroParaApagar = null;
+                    linhaCarroParaApagar = null;
+                }).catch(erro => console.log(erro));
+            });
+        });
+    </script>
+}

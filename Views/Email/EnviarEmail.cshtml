@@ -1,0 +1,45 @@
+﻿@model Trabalho.Models.EmailModel
+
+@{
+    ViewBag.Title = "Enviar Email";
+}
+
+<h2>Enviar Email</h2>
+<hr />
+
+@if (ViewBag.Msg != null)
+{
+    <div class="alert alert-info">
+        @ViewBag.Msg
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Para)
+        @Html.TextBoxFor(m => m.Para, new { @class = "form-control", type = "email" })
+        @Html.ValidationMessageFor(m => m.Para, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Assunto)
+        @Html.TextBoxFor(m => m.Assunto, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Assunto, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Mensagem)
+        @Html.TextAreaFor(m => m.Mensagem, 6, 50, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Mensagem, "", new { @class = "text-danger" })
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Enviar</button>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,146 @@
+﻿@model IEnumerable<Trabalho.Models.aluguere>
+
+@{
+    ViewBag.Title = "Alugueres";
+}
+
+<h2>Lista de Alugueres</h2>
+<hr />
+
+<p>
+    <a href="@Url.Action("CreateAluguer", "Stand")" class="btn-criar">+ Criar Novo</a>
+    <a href="@Url.Action("ExportarAlugueresExcel", "Stand")" class="btn-excel">Exportar para Excel</a>
+</p>
+
+<table class="table" id="tblAlugueres">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Carro</th>
+            <th>Data de Início</th>
+            <th>Data de Fim</th>
+            <th>Tempo (horas)</th>
+            <th>Custo</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            double custoCalculado = (item.tempo.HasValue && item.carro != null && item.carro.phora.HasValue)
+                ? Convert.ToDouble(item.tempo.Value) * Convert.ToDouble(item.carro.phora.Value)
+                : 0;
+
+            <tr>
+                <td>@(item.cliente != null ? item.cliente.nome : "")</td>
+                <td>@(item.carro != null ? item.carro.modelo : "")</td>
+                <td data-order="@(item.inicio.HasValue ? item.inicio.Value.ToString("yyyyMMdd") : "")">
+                    @(item.inicio.HasValue ? item.inicio.Value.ToString("dd/MM/yyyy") : "")
+                </td>
+                <td data-order="@(item.fim.HasValue ? item.fim.Value.ToString("yyyyMMdd") : "")">
+                    @(item.fim.HasValue ? item.fim.Value.ToString("dd/MM/yyyy") : "")
+                </td>
+                <td data-order="@(item.tempo.HasValue ? item.tempo.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "0")">
+                    @(item.tempo.HasValue ? item.tempo.Value.ToString() : "")
+                </td>
+                <td data-order="@custoCalculado.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+                    @custoCalculado.ToString("0.00") €
+                </td>
+                <td>
+                    <a href="@Url.Action("EditAluguer", "Stand", new { id = item.idal })" class="btn-edit">Editar</a>
+                    <a href="@Url.Action("DetailsAluguer", "Stand", new { id = item.idal })" class="btn-details">Detalhes</a>
+                    <a href="#" id="@item.idal" name="btdelalg" class="btn-delete-inline">Apagar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="tvalg"></div>
+
+<div class="modal fade" id="modalDeleteAluguer" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content" style="border:none; border-radius:16px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.18);">
+            <div style="background:#1a1a2e; padding:18px 20px; text-align:center;">
+                <div style="width:54px; height:54px; margin:0 auto 12px; border-radius:50%; background:#fff3f4; display:flex; align-items:center; justify-content:center; border:2px solid #f5c2c7;">
+                    <span style="color:#dc3545; font-size:1.4rem; font-weight:700;">!</span>
+                </div>
+                <h5 style="margin:0; color:#f0c040; font-weight:700;">Confirmar eliminação</h5>
+            </div>
+
+            <div class="modal-body" style="padding:20px 22px; text-align:center; background:#fff;">
+                <p style="margin:0; color:#555; font-size:0.95rem;">
+                    Tens a certeza que queres apagar este aluguer?
+                </p>
+            </div>
+
+            <div class="modal-footer" style="border:none; background:#f8f9fa; justify-content:center; gap:10px; padding:16px 20px;">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                        style="border-radius:8px; padding:8px 18px; font-weight:600;">
+                    Cancelar
+                </button>
+                <button type="button" id="btnConfirmDeleteAluguer"
+                        style="background:#dc3545; color:#fff; border:none; border-radius:8px; padding:8px 18px; font-weight:700;">
+                    Apagar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        let idAluguerParaApagar = null;
+        let linhaAluguerParaApagar = null;
+        let modalDeleteAluguer = null;
+
+        $(document).ready(function () {
+            $('#tblAlugueres').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json'
+                },
+                pageLength: 10,
+                lengthMenu: [[1, 5, 10, 20, -1], [1, 5, 10, 20, "Todos"]],
+                order: [[0, 'asc']],
+                columnDefs: [
+                    { orderable: false, targets: [6] },
+                    { type: 'string', targets: [0, 1] },
+                    { type: 'num', targets: [4, 5] },
+                    { searchable: false, targets: [2, 3, 4, 5, 6] }
+                ]
+            });
+
+            modalDeleteAluguer = new bootstrap.Modal(document.getElementById('modalDeleteAluguer'));
+
+            const btdels = document.querySelectorAll('[name="btdelalg"]');
+            btdels.forEach(e => {
+                e.addEventListener("click", (evt) => {
+                    evt.preventDefault();
+                    idAluguerParaApagar = evt.target.id;
+                    linhaAluguerParaApagar = evt.target.closest("tr");
+                    modalDeleteAluguer.show();
+                });
+            });
+
+            document.getElementById("btnConfirmDeleteAluguer").addEventListener("click", function () {
+                if (!idAluguerParaApagar) return;
+
+                let dados = new URLSearchParams();
+                dados.append("id", idAluguerParaApagar);
+
+                fetch("@Url.Action("DeleteAluguerAsync")", {
+                    method: "post",
+                    body: dados
+                }).then(response => response.json()).then(dados => {
+                    document.getElementById("tvalg").innerHTML = dados.msg;
+                    if (dados.msg == "ok" && linhaAluguerParaApagar) {
+                        linhaAluguerParaApagar.remove();
+                    }
+                    modalDeleteAluguer.hide();
+                    idAluguerParaApagar = null;
+                    linhaAluguerParaApagar = null;
+                }).catch(erro => console.log(erro));
+            });
+        });
+    </script>
+}

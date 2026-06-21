@@ -1,0 +1,231 @@
+﻿@model IEnumerable<Trabalho.Models.cliente>
+
+@{
+    ViewBag.Title = "Clientes";
+}
+
+<h2>Lista de Clientes</h2>
+<hr />
+
+<p>
+    <a href="@Url.Action("CreateCliente", "Stand")" class="btn-criar">+ Criar Novo</a>
+</p>
+
+<table class="table" id="tblClientes">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Data de Nascimento</th>
+            <th>Idade</th>
+            <th>Categoria</th>
+            <th>Foto</th>
+            <th>Tutor</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.idcli">
+                <td data-order="@item.idcli">@item.idcli</td>
+                <td class="col-nome" style="cursor:pointer; color:#337ab7; text-decoration:underline;">
+                    @item.nome
+                </td>
+                <td data-order="@(item.datanasc.HasValue ? item.datanasc.Value.ToString("yyyyMMdd") : "")">
+                    @(item.datanasc.HasValue ? item.datanasc.Value.ToString("dd/MM/yyyy") : "")
+                </td>
+                <td data-order="@(item.idade.HasValue ? item.idade.Value.ToString() : "0")">
+                    @(item.idade.HasValue ? item.idade.Value.ToString() : "")
+                </td>
+                <td>@item.categoria</td>
+                <td>
+                    @if (item.photopath == null)
+                    {
+                        <img src="@Url.Content("~/Fotos/nophoto.png")"
+                             style="height:55px; width:75px; max-width:75px; object-fit:cover; border-radius:5px;" alt="" />
+                    }
+                    else
+                    {
+                        <img src="@Url.Content($"~/Fotos/{item.photopath}")"
+                             style="height:55px; width:75px; max-width:75px; object-fit:cover; border-radius:5px;" alt="" />
+                    }
+                </td>
+                <td>@(item.cliente1 != null ? item.cliente1.nome : "Sem tutor")</td>
+                <td>
+                    <a href="@Url.Action("EditCliente", "Stand", new { id = item.idcli })" class="btn-edit">Editar</a>
+                    <a href="@Url.Action("DetailsCliente", "Stand", new { id = item.idcli })" class="btn-details">Detalhes</a>
+                    <a href="#" id="@item.idcli" name="btdel" class="btn-delete-inline">Apagar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="tv"></div>
+
+<div class="modal fade" id="modalCliente" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border:none; border-radius:16px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+
+            <div class="modal-header" style="background:#1a1a2e; border:none; padding:20px 24px;">
+                <h5 class="modal-title" style="color:#f0c040; font-weight:700; font-size:1.05rem; margin:0;">
+                    Detalhes do Cliente
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <div style="background:linear-gradient(135deg, #1a1a2e 0%, #2d2d4e 100%); padding:28px 0 22px; text-align:center;">
+                <img id="modalFoto" src="" alt=""
+                     style="width:100px; height:100px; border-radius:50%; object-fit:cover;
+                            border:4px solid #f0c040; box-shadow:0 4px 20px rgba(0,0,0,0.3);" />
+                <div style="margin-top:12px;">
+                    <div id="modalNome" style="color:#fff; font-size:1.15rem; font-weight:700;"></div>
+                    <span id="modalCategoria"
+                          style="display:inline-block; margin-top:8px; background:#f0c040; color:#1a1a2e;
+                                 padding:3px 14px; border-radius:20px; font-size:0.75rem;
+                                 font-weight:700; text-transform:uppercase; letter-spacing:0.05em;"></span>
+                </div>
+            </div>
+
+            <div class="modal-body" style="padding:24px 28px; background:#fff;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+
+                    <div style="background:#f8f9fa; border-radius:10px; padding:14px 16px;">
+                        <div style="font-size:0.68rem; color:#999; text-transform:uppercase; font-weight:700; letter-spacing:0.06em; margin-bottom:5px;">ID</div>
+                        <div id="modalId" style="font-size:1rem; font-weight:700; color:#1a1a2e;"></div>
+                    </div>
+
+                    <div style="background:#f8f9fa; border-radius:10px; padding:14px 16px;">
+                        <div style="font-size:0.68rem; color:#999; text-transform:uppercase; font-weight:700; letter-spacing:0.06em; margin-bottom:5px;">Data Nasc.</div>
+                        <div id="modalDatanasc" style="font-size:1rem; font-weight:700; color:#1a1a2e;"></div>
+                    </div>
+
+                    <div style="background:#f8f9fa; border-radius:10px; padding:14px 16px;">
+                        <div style="font-size:0.68rem; color:#999; text-transform:uppercase; font-weight:700; letter-spacing:0.06em; margin-bottom:5px;">Idade</div>
+                        <div id="modalIdade" style="font-size:1rem; font-weight:700; color:#1a1a2e;"></div>
+                    </div>
+
+                    <div style="background:#f8f9fa; border-radius:10px; padding:14px 16px;">
+                        <div style="font-size:0.68rem; color:#999; text-transform:uppercase; font-weight:700; letter-spacing:0.06em; margin-bottom:5px;">Tutor</div>
+                        <div id="modalTutor" style="font-size:1rem; font-weight:700; color:#1a1a2e;"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer" style="background:#f8f9fa; border:none; padding:16px 24px;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        style="border-radius:8px; font-weight:600; padding:8px 22px;">
+                    Fechar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDeleteCliente" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content" style="border:none; border-radius:16px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.18);">
+            <div style="background:#1a1a2e; padding:18px 20px; text-align:center;">
+                <div style="width:54px; height:54px; margin:0 auto 12px; border-radius:50%; background:#fff3f4; display:flex; align-items:center; justify-content:center; border:2px solid #f5c2c7;">
+                    <span style="color:#dc3545; font-size:1.4rem; font-weight:700;">!</span>
+                </div>
+                <h5 style="margin:0; color:#f0c040; font-weight:700;">Confirmar eliminação</h5>
+            </div>
+
+            <div class="modal-body" style="padding:20px 22px; text-align:center; background:#fff;">
+                <p style="margin:0; color:#555; font-size:0.95rem;">
+                    Tens a certeza que queres apagar este cliente?
+                </p>
+            </div>
+
+            <div class="modal-footer" style="border:none; background:#f8f9fa; justify-content:center; gap:10px; padding:16px 20px;">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                        style="border-radius:8px; padding:8px 18px; font-weight:600;">
+                    Cancelar
+                </button>
+                <button type="button" id="btnConfirmDeleteCliente"
+                        style="background:#dc3545; color:#fff; border:none; border-radius:8px; padding:8px 18px; font-weight:700;">
+                    Apagar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        let idClienteParaApagar = null;
+        let linhaClienteParaApagar = null;
+        let modalDeleteCliente = null;
+
+        $(document).ready(function () {
+            $('#tblClientes').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json'
+                },
+                pageLength: 10,
+                lengthMenu: [[1, 5, 10, 20, -1], [1, 5, 10, 20, "Todos"]],
+                order: [[0, 'asc']],
+                columnDefs: [
+                    { orderable: false, targets: [5, 7] },
+                    { type: 'num', targets: [0, 3] },
+                    { type: 'string', targets: [1, 4, 6] },
+                    { searchable: false, targets: [0, 2, 3, 4, 5, 6, 7] }
+                ]
+            });
+
+            modalDeleteCliente = new bootstrap.Modal(document.getElementById('modalDeleteCliente'));
+
+            $('#tblClientes tbody').on('click', 'td.col-nome', function () {
+                let id = $(this).closest('tr').data('id');
+                fetch('@Url.Action("GetClienteAsync")?id=' + id)
+                    .then(r => r.json())
+                    .then(cli => {
+                        $('#modalId').text(cli.idcli);
+                        $('#modalNome').text(cli.nome);
+                        $('#modalDatanasc').text(cli.datanasc);
+                        $('#modalIdade').text(cli.idade + ' anos');
+                        $('#modalCategoria').text(cli.categoria);
+                        $('#modalTutor').text(cli.tutor);
+                        $('#modalFoto').attr('src', '@Url.Content("~/Fotos/")' + cli.foto);
+                        var modal = new bootstrap.Modal(document.getElementById('modalCliente'));
+                        modal.show();
+                    })
+                    .catch(erro => console.log(erro));
+            });
+
+            const btdels = document.querySelectorAll('[name="btdel"]');
+            btdels.forEach(e => {
+                e.addEventListener("click", (evt) => {
+                    evt.preventDefault();
+                    idClienteParaApagar = evt.target.id;
+                    linhaClienteParaApagar = evt.target.closest("tr");
+                    modalDeleteCliente.show();
+                });
+            });
+
+            document.getElementById("btnConfirmDeleteCliente").addEventListener("click", function () {
+                if (!idClienteParaApagar) return;
+
+                let dados = new URLSearchParams();
+                dados.append("id", idClienteParaApagar);
+
+                fetch("@Url.Action("DeleteClientAsync")", {
+                    method: "post",
+                    body: dados
+                }).then(response => response.json()).then(dados => {
+                    document.getElementById("tv").innerHTML = dados.msg;
+                    if (dados.msg == "ok" && linhaClienteParaApagar) {
+                        linhaClienteParaApagar.remove();
+                    }
+                    modalDeleteCliente.hide();
+                    idClienteParaApagar = null;
+                    linhaClienteParaApagar = null;
+                }).catch(erro => console.log(erro));
+            });
+        });
+    </script>
+}

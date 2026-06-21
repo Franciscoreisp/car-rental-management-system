@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Registar";
+    ViewBag.PaginaAtual = "Register";
+}
+
+<h2>Registar</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="login-form">
+        <table>
+            <tr>
+                <td><label>Nome:</label></td>
+                <td>@Html.TextBox("nome", "", new { @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td><label>Username:</label></td>
+                <td>@Html.TextBox("username", "", new { @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td><label>Password:</label></td>
+                <td>@Html.Password("password", "", new { @class = "form-control" })</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Registar" style="margin-top: 8px;" /></td>
+            </tr>
+        </table>
+    </div>
+
+    if (ViewBag.Erro != null)
+    {
+        <p style="color:red; margin-top: 8px;">@ViewBag.Erro</p>
+    }
+}
+
+<p>
+    <a href="@Url.Action("Login", "Login")" class="btn-link-custom">&#8592; Voltar ao Login</a>
+</p>

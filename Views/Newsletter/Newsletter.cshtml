@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Newsletter";
+}
+
+<h2>Subscrever Newsletter</h2>
+<hr />
+
+@if (ViewBag.Msg != null)
+{
+    <div class="alert alert-info">
+        @ViewBag.Msg
+    </div>
+}
+
+@using (Html.BeginForm("Newsletter", "Newsletter", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Receba novidades da página</h4>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Email</label>
+            <div class="col-md-10">
+                <input type="email" name="email" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Subscrever" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}

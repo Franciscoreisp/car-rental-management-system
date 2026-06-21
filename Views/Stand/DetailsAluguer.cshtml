@@ -1,0 +1,54 @@
+﻿@model Trabalho.Models.aluguere
+
+@{
+    ViewBag.Title = "DetailsAluguer";
+}
+
+<h2>Detalhes do Aluguer</h2>
+
+<div style="max-width:520px;">
+    <hr />
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.idcli, "Cliente", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @(Model.cliente != null ? Model.cliente.nome : "")
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.idcar, "Carro", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @(Model.carro != null ? Model.carro.modelo : "")
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.inicio, "Data de Início", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @(Model.inicio.HasValue ? Model.inicio.Value.ToString("dd/MM/yyyy") : "")
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.fim, "Data de Fim", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @(Model.fim.HasValue ? Model.fim.Value.ToString("dd/MM/yyyy") : "")
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.tempo, "Tempo", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">@Html.DisplayFor(model => model.tempo)</div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.custo, "Custo", htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">@Html.DisplayFor(model => model.custo)</div>
+    </div>
+</div>
+
+<div style="margin-top:16px; display:flex; align-items:center; gap:12px;">
+    <a href="@Url.Action("EditAluguer", "Stand", new { id = Model.idal })" class="btn-edit">Editar</a>
+    <a href="@Url.Action("Alugueres", "Stand")" class="btn-link-custom">&#8592; Voltar à lista</a>
+</div>
