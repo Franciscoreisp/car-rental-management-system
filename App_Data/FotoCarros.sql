@@ -1,0 +1,1 @@
+﻿ALTER TABLE carros ADD photopath NVARCHAR(200) NULL;
